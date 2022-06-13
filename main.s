@@ -15,7 +15,7 @@ section .bss
     testimony:
         resb 45
     finalwords:
-        resb 
+        resb 45
 section .text 
 _start:
     ;Part 1 -------------------------
