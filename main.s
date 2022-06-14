@@ -54,7 +54,7 @@ _start:
     mov al, [confirmation]
     cmp al, 'y'
     je tough
-
+    
     mov eax, greeting
     mov ebx, confirm - greeting
     call print
