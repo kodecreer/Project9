@@ -18,7 +18,7 @@ section .data
     greeting:
         db `Welcome to the Salty Spatoon how tough are you?\n`,0
     confirm:
-        db `Well ain't that correct? y/n\n`,0
+        db `Well ain't that correct and tough? y/n\n`,0
     contractp:
         db `Well, I will put your testimony as a witness unto this weak generation\n`,0
     finalwordp:
