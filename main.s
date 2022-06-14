@@ -54,7 +54,11 @@ _start:
     mov al, [confirmation]
     cmp al, 'y'
     je tough
-    
+    call delete_file ;remove the file since we don't need it
+    ; and the person said no. We have to delete the file to remove
+    ;a bug where it keeps some of the previous data mixed with the
+    ;another one 
+testify:
     mov eax, greeting
     mov ebx, confirm - greeting
     call print
@@ -100,6 +104,9 @@ tough:
     mov eax, gameover
     mov ebx, golen
     call print
+    mov ecx, 0
+    call write_file; to clear the next line
+    call close_write
     jmp exit
 exit:
     mov eax, EXIT
@@ -163,11 +170,18 @@ close_write:
     int 80h
     jmp exit
 
-errOpen:
+no_file:
     mov eax, err_open
     mov ebx, err_close - err_open
     call print
+    ret
+errOpen:
+    call no_file
     jmp exit
+
+errRead:
+    call no_file
+    jmp testify
 errWrite:
     mov eax, err_close
     mov ebx, marker - err_close
@@ -179,7 +193,7 @@ start_read:
     mov eax, OPEN
     int 80h
     cmp eax, 0
-    jl errOpen
+    jl errRead
     mov [r_desc], eax
 again:
     mov ebx, [r_desc]
@@ -203,4 +217,8 @@ close_read:
     mov eax, CLOSE
     int 80h
     ret
-
+delete_file:
+    mov eax, 10 ;syscall for unlinking the system
+    mov ebx, filename
+    int 80h
+    ret
