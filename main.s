@@ -4,7 +4,7 @@ section .data
     greeting:
         db `Welcome to the Salty Spatoon how tough are you?\n`,0
     confirm:
-        db `Well ain't that correct? y/n\n`,0
+        db `Well ain't that correct? type 1 for yes\n`,0
     contractp:
         db `Well, I will put your testimony as a witness unto this weak generation\n`,0
     finalwordp:
@@ -13,12 +13,12 @@ section .data
         db `I have written that down. Never come here again\n`,0
     gameover:
         db `I have written that down. Come in\n`,0
-    golen .equ $ - gameover
+    golen equ $ - gameover
 section .bss
     testimony:
         resb 45
     confirmation:
-        resb 10
+        resb 2
     finalwords:
         resb 45
 
@@ -41,8 +41,12 @@ _start:
 
     mov eax, confirmation
     call getline
-    cmp ecx, 121
-    jz tough
+    ;Make sure you move it to al
+    ;so you can compare and 8 bit
+    ;char in comparison to a 32 bit
+    mov al, byte [confirmation]
+    cmp al, 'y'
+    je tough
     ;otherwise send them to weenie hut juniors
     mov eax, finalwordp
     mov ebx, weenie - finalwordp
@@ -56,6 +60,8 @@ _start:
     jmp exit
     ;Part 1 END --------------------
 tough:
+    ;write down the file of how tough
+    ;someone is
     mov eax, gameover
     mov ebx, golen
     call print
