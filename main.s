@@ -16,7 +16,7 @@ section .data
     remember:
         db `, is that right? That's what made you tough? y/n\n`,0
     greeting:
-        db `Welcome to the Salty Spatoon how tough are you?\n`,0
+        db `Welcome to the Salty Spitoon how tough are you?\n`,0
     confirm:
         db `Well ain't that correct and tough? y/n\n`,0
     contractp:
